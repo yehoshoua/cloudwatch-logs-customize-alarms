@@ -10,7 +10,7 @@ When you get an alarm, you want enough information to decide whether it needs im
 
 ## Flow of Events
 
-![Flow of events](https://s3.amazonaws.com/aws-cloudwatch/downloads/cloudwatch-logs-customize-alarms/demo-2.png)
+![Flow of events](pict.jpg)
 
 ## Setup Overview
 
