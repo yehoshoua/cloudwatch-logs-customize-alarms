@@ -46,7 +46,7 @@ Since there is a need here for various AWS services making calls to each other, 
 }
 ```
 
-2.SES permits Lambda to send a customized email. Note that we have given full SES access, but it is recommended that you only give permissions to send an email.
+2.SNS permits Lambda to send a customized messages. Note that we have given push SNS access, but it is recommended that you only give permissions to push message.
 
 ```json
 {
@@ -55,9 +55,9 @@ Since there is a need here for various AWS services making calls to each other, 
     {
       "Effect": "Allow",
       "Action": [
-        "ses:*"
+        "sns:Publish"
       ],
-      "Resource": "*"
+      "Resource": "arn::sns:*:${var.aws_account}:${var.vpc_name}-alerts" # terraform format.
     }
   ]
 }
@@ -67,10 +67,9 @@ Since there is a need here for various AWS services making calls to each other, 
 
 ***Configurable parameters:***
 
-1. **Destination** - The destination email address where email needs to be send.
-2. **Source** - The source email address sending the email.
+1. **Destination** - The SNS destination with messages refactoring needs to be send.
+2. **Source** - The SNS source.
 
-For more information visit the SES documentation [here](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SES.html)
 
 ***Instructions:***
 
@@ -79,7 +78,7 @@ For more information visit the SES documentation [here](http://docs.aws.amazon.c
 * Once Alarm invokes the SNS topic, Lambda function is invoked and it reads the metricName and metricNamespace from the alarm.
 * It then calls describeMetricFilters to get the filterPattern.
 * Then Lambda calls filterLogEvents to get the relevant logs.
-* SES uses those filtered logs and additional customizations to send an email.
+* SNS used to resend refactored messages.
 
 ### Lambda Configuration
 
