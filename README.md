@@ -1,12 +1,10 @@
 # Cloudwatch Logs Customize alarms
 
-### Package cloudwatch-logs-customize-alarms
 
-Copyright 2016- Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
 ## Introduction
 
-When you get an alarm, you want enough information to decide whether it needs immediate attention or not. You also want to customize the alarm text to operational needs. The **CloudWatch Logs Customize Alarms** is a Lambda function that helps in reading the logs from CloudWatch Logs during an alarm and send a customized email through SES.
+When you get an alarm, you want enough information to decide whether it needs immediate attention or not. You also want to customize the alarm text to operational needs. The **CloudWatch Logs Customize Alarms** is a Lambda function that helps in reading the logs from CloudWatch Logs during an alarm and send a customized message through SNS.
 
 ## Flow of Events
 
@@ -14,23 +12,23 @@ When you get an alarm, you want enough information to decide whether it needs im
 
 ## Setup Overview
 
-Lambda function is written in Node.js. We do have a dependency on the latest aws sdk which includes the metrics to logs feature. Hence we create a deployment package. You can create a new Lambda function, and copy the code in index.js from this repository to your function. See 'Configurable parameters' section below.  
+Lambda function is written in Node.js. We do have a dependency on the latest aws sdk which includes the metrics to logs feature. Hence we create a deployment package. You can create a new Lambda function, and copy the code in index.js from this repository to your function. See 'Configurable parameters' section below.
 
 ### Pre-requisite
 
 * CloudWatch Logs has a Log group with a metric filter.
 * A CloudWatch Alarm is created to trigger when that metric exceeds a threshold.
-* SES domain is created and verified
 
 ### Triggers
 
 * The Lambda function is triggered on a SNS event.
-* You need to provide the SNS topic.
+* You need to provide the SNS topic Source.
+* You need to provide the SNS topic Destination.
 
 ### Authorization
 
 Since there is a need here for various AWS services making calls to each other, appropriate authorization is required.  This takes the form of configuring an IAM role, to which various authorization policies are attached.  This role will be assumed by the Lambda function when running. The below two permissions are required:
- 
+
 1.CloudWatch Logs permits Lambda to call describeMetricFilters and filterLogEvents api. Note that we have given full CloudWatch Logs access, but it is recommended that you only give permissions to call specific api's.
 
 ```json
@@ -103,4 +101,4 @@ The Lambda function has the following limitation:
 
 ## License Summary
 
-This sample code is made available under the MIT license. 
+This sample code is made available under the MIT license.
